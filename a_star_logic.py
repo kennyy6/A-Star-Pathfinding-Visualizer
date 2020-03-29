@@ -1,10 +1,13 @@
 class Node:
     def __init__(self, parent = None,position = None):
+        """
+        Nodes that have been checked
+        """
         self.parent = parent
         self.position = position
 
         self.f = 0
-        self.g  = 0
+        self.g = 0
         self.h = 0
 
 
@@ -23,7 +26,10 @@ class Logic_AStar_Algo:
             self.val_list += [a_list]
 
     def print_neat(self):
-
+        """
+        Prints out the board as a console
+        :return:
+        """
         for i in self.val_list:
             print(i)
         return None
@@ -39,13 +45,18 @@ class Logic_AStar_Algo:
             self.val_list[y][x] = 1 # 1 Represents start
             self.start_node = Node(None,(y,x))
         elif mode == 2:
-            print(x,y)
+            #print(x,y)
             self.val_list[y][x] = 2
             self.end_node = Node(None, (y, x))
         else:
             self.val_list[y][x] = 3
 
     def pathFinding(self,gui_reference):
+        """
+        Utlizes the A* pathfinding algorithm
+        :param gui_reference: Reference to the gui so we can place the nodes in the canvas
+        :return:
+        """
         # Using gui reference here so we can map out the calculations it performs
 
 
@@ -54,18 +65,11 @@ class Logic_AStar_Algo:
         close_list = []
 
         open_list.append(self.start_node)
-
+        #Aslong as the open_list is greater than zero
         while len(open_list) > 0:
-            test1 = []
-            test2 = []
-            # for i in open_list:
-            #     test1 += [i.position,i.f]
-            # for j in close_list:
-            #     test2 += [j.position,i.f]
-            # print(test1,"tesst",test2)
             current_node = open_list[0]
             current_index = 0
-
+            # Finds the smallest f value within the open_list and moves it into  close list
             for index, item in enumerate(open_list):
                 if item.f < current_node.f:
                     current_node = item
@@ -115,14 +119,6 @@ class Logic_AStar_Algo:
 
                 # colour in the selected neighbours it searching
                 gui_reference.insert_path(neighbour.position[1],neighbour.position[0],"green")
-
-                # gui_reference.start_node_bool = True
-                # gui_reference.end_node_bool = True
-                #
-                # gui_reference.draw_start_end_nodes(self.start_node.position[1],self.start_node.position[0])
-                # gui_reference.draw_start_end_nodes(self.end_node.position[1], self.end_node.position[0])
-                #
-
 
                 for close_neighbours in close_list:
                     if neighbour.position == close_neighbours.position:
